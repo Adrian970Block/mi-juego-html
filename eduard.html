@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ajuda les flors a créixer - Eduard</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f1f8e9;
+      text-align: center;
+      padding: 30px;
+    }
+
+    h1 {
+      color: #33691e;
+    }
+
+    #garden {
+      margin-top: 30px;
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      height: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: #dcedc8;
+      border: 4px solid #aed581;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    #cloud {
+      font-size: 60px;
+      cursor: pointer;
+      position: absolute;
+      top: 20px;
+      left: calc(50% - 30px);
+      animation: float 2s infinite ease-in-out;
+      z-index: 10;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+      100% { transform: translateY(0); }
+    }
+
+    .drop {
+      position: absolute;
+      width: 6px;
+      height: 12px;
+      background-color: #2196f3;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: fall 1s linear forwards;
+    }
+
+    @keyframes fall {
+      0% { top: 80px; opacity: 0.8; }
+      100% { top: 100%; opacity: 0; }
+    }
+
+    .flower-stage {
+      font-size: 60px;
+      position: absolute;
+      bottom: 30px;
+      left: calc(50% - 30px);
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .show {
+      opacity: 1 !important;
+    }
+
+    #message {
+      margin-top: 25px;
+      font-size: 18px;
+      color: #2e7d32;
+      font-weight: bold;
+    }
+
+    button {
+      margin-top: 25px;
+      padding: 10px 20px;
+      background-color: #81c784;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #66bb6a;
+    }
+
+    a {
+      display: block;
+      margin-top: 30px;
+      text-decoration: none;
+      color: #558b2f;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🌱 Ajuda les flors a créixer</h1>
+  <p>Fes clic al núvol perquè plogui i la flor creixi pas a pas!</p>
+
+  <div id="garden">
+    <div id="cloud">☁️</div>
+    <div id="stage1" class="flower-stage">🌱</div>
+    <div id="stage2" class="flower-stage">🌿</div>
+    <div id="stage3" class="flower-stage">🌷</div>
+  </div>
+
+  <div id="message"></div>
+  <button id="restartBtn" style="display:none;" onclick="restartGame()">Torna a començar</button>
+  <a href="index.html">🔙 Tornar a la portada</a>
+
+  <script>
+    const cloud = document.getElementById("cloud");
+    const garden = document.getElementById("garden");
+    const stages = [
+      document.getElementById("stage1"),
+      document.getElementById("stage2"),
+      document.getElementById("stage3")
+    ];
+    const message = document.getElementById("message");
+    const restartBtn = document.getElementById("restartBtn");
+
+    let currentStage = 0;
+    let growing = false;
+
+    cloud.addEventListener("click", () => {
+      if (growing || currentStage >= stages.length) return;
+      growing = true;
+
+      // Pluja visual: crear gotes aleatòries
+      for (let i = 0; i < 15; i++) {
+        const drop = document.createElement("div");
+        drop.classList.add("drop");
+        drop.style.left = `${Math.random() * 100}%`;
+        drop.style.animationDelay = `${Math.random()}s`;
+        garden.appendChild(drop);
+
+        // Eliminar gota després de caure
+        setTimeout(() => drop.remove(), 1000);
+      }
+
+      // Fer créixer la flor després de la pluja
+      setTimeout(() => {
+        stages[currentStage].classList.add("show");
+        currentStage++;
+        growing = false;
+
+        if (currentStage === stages.length) {
+          message.innerText = "🌼 Molt bé! Has fet créixer la flor de primavera!";
+          restartBtn.style.display = "inline-block";
+        }
+      }, 1200);
+    });
+
+    function restartGame() {
+      stages.forEach(stage => stage.classList.remove("show"));
+      currentStage = 0;
+      message.innerText = "";
+      restartBtn.style.display = "none";
+    }
+  </script>
+
+</body>
+</html>

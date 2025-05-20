@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joc d'Estiu - Arnau</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fffde7;
+      text-align: center;
+      padding: 40px;
+    }
+
+    h1 {
+      color: #f9a825;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+      grid-gap: 20px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .item {
+      font-size: 40px;
+      background-color: #fff;
+      border: 3px solid #fbc02d;
+      border-radius: 12px;
+      cursor: pointer;
+      padding: 20px;
+      transition: transform 0.2s ease;
+    }
+
+    .item.correct {
+      background-color: #c8e6c9;
+      border-color: #4caf50;
+      cursor: default;
+    }
+
+    .item.incorrect {
+      background-color: #ffcdd2;
+      border-color: #e53935;
+    }
+
+    #message {
+      margin-top: 30px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #388e3c;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 40px;
+      text-decoration: none;
+      color: #f9a825;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>☀️ Què portem a la platja? ☀️</h1>
+  <p>Fes clic només als objectes típics de platja.</p>
+
+  <div class="grid" id="objectGrid"></div>
+
+  <div id="message"></div>
+
+  <a href="index.html">🔙 Tornar a la portada</a>
+
+  <script>
+    const items = [
+      { emoji: "🕶️", correct: true },     // Ulleres de sol
+      { emoji: "🧣", correct: false },     // Bufanda
+      { emoji: "🩴", correct: true },      // Xancletes
+      { emoji: "🧊", correct: false },     // Gel
+      { emoji: "🏖️", correct: true },     // Para-sol
+      { emoji: "🧤", correct: false },     // Guants
+      { emoji: "🧴", correct: true },      // Protector solar
+      { emoji: "⛄", correct: false }      // Ninot de neu
+    ];
+
+    const grid = document.getElementById("objectGrid");
+    let correctCount = 0;
+
+    items.forEach((item, index) => {
+      const div = document.createElement("div");
+      div.className = "item";
+      div.innerText = item.emoji;
+
+      div.addEventListener("click", () => {
+        if (div.classList.contains("correct") || div.classList.contains("incorrect")) return;
+
+        if (item.correct) {
+          div.classList.add("correct");
+          correctCount++;
+          if (correctCount === 4) {
+            document.getElementById("message").innerText = "🏆 Molt bé, Has triat tots els objectes d'estiu!";
+          }
+        } else {
+          div.classList.add("incorrect");
+        }
+      });
+
+      grid.appendChild(div);
+    });
+  </script>
+</body>
+</html>

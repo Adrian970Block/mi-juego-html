@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recollim Fulles - Adrián</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff8e1;
+      text-align: center;
+      padding: 30px;
+    }
+
+    h1 {
+      color: #d84315;
+    }
+
+    #playArea {
+      margin-top: 30px;
+      position: relative;
+      width: 100%;
+      max-width: 700px;
+      height: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: #fbe9e7;
+      border: 2px dashed #bf360c;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .leaf {
+      font-size: 40px;
+      position: absolute;
+      cursor: grab;
+    }
+
+    #basket {
+      width: 120px;
+      height: 120px;
+      position: absolute;
+      bottom: 10px;
+      left: calc(50% - 60px);
+      font-size: 80px;
+      line-height: 120px;
+      text-align: center;
+      background-color: #ffe0b2;
+      border-radius: 50%;
+      border: 3px solid #ff9800;
+    }
+
+    #message {
+      margin-top: 25px;
+      font-size: 18px;
+      color: #4caf50;
+      font-weight: bold;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 40px;
+      text-decoration: none;
+      color: #d84315;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🍁 Recollim les fulles de la tardor 🍁</h1>
+  <p>Arrossega totes les fulles cap al cistell!</p>
+
+  <div id="playArea">
+    <div id="basket">🧺</div>
+  </div>
+
+  <div id="message"></div>
+
+  <a href="index.html">🔙 Tornar a la portada</a>
+
+  <script>
+    const playArea = document.getElementById("playArea");
+    const basket = document.getElementById("basket");
+    const leafEmojis = ["🍂", "🍁", "🍃", "🍂", "🍁"];
+    let placedLeaves = 0;
+
+    leafEmojis.forEach((leaf, index) => {
+      const leafDiv = document.createElement("div");
+      leafDiv.className = "leaf";
+      leafDiv.innerText = leaf;
+      leafDiv.draggable = true;
+      leafDiv.style.left = `${Math.random() * 80 + 10}%`;
+      leafDiv.style.top = `${Math.random() * 60 + 10}%`;
+      leafDiv.id = `leaf${index}`;
+      playArea.appendChild(leafDiv);
+
+      leafDiv.addEventListener("dragstart", (e) => {
+        e.dataTransfer.setData("text/plain", leafDiv.id);
+      });
+    });
+
+    basket.addEventListener("dragover", (e) => {
+      e.preventDefault();
+    });
+
+    basket.addEventListener("drop", (e) => {
+      e.preventDefault();
+      const id = e.dataTransfer.getData("text/plain");
+      const draggedLeaf = document.getElementById(id);
+      if (draggedLeaf && !draggedLeaf.classList.contains("dropped")) {
+        draggedLeaf.style.display = "none";
+        draggedLeaf.classList.add("dropped");
+        placedLeaves++;
+
+        if (placedLeaves === leafEmojis.length) {
+          document.getElementById("message").innerText = "🍂 Molt bé , Has recollit totes les fulles!";
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
+

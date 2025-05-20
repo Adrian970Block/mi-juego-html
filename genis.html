@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trenca el gel - Genís</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e0f7fa;
+      text-align: center;
+      padding: 40px;
+    }
+
+    h1 {
+      color: #0277bd;
+    }
+
+    .question {
+      margin-top: 30px;
+    }
+
+    .question p {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .answers button {
+      margin: 5px;
+      padding: 10px 20px;
+      border: none;
+      background-color: #81d4fa;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .answers button:hover {
+      background-color: #29b6f6;
+    }
+
+    #icebar {
+      width: 300px;
+      height: 30px;
+      background-color: #b3e5fc;
+      border: 2px solid #0288d1;
+      border-radius: 10px;
+      margin: 30px auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #progress {
+      background-color: #0288d1;
+      width: 0%;
+      height: 100%;
+      transition: width 0.5s ease;
+    }
+
+    #penguin {
+      display: none;
+      font-size: 60px;
+      margin-top: 20px;
+    }
+
+    #message {
+      font-size: 18px;
+      color: #00796b;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 40px;
+      text-decoration: none;
+      color: #0277bd;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>❄️ Trenca el gel amb Genís ❄️</h1>
+  <p>Respon 3 preguntes sobre l'hivern per alliberar el pingüí!</p>
+
+  <div id="icebar">
+    <div id="progress"></div>
+  </div>
+
+  <div class="question" id="q1">
+    <p>🧤 Què ens posem a l'hivern per no tenir fred?</p>
+    <div class="answers">
+      <button onclick="correct('q1')">Bufanda</button>
+      <button>Sandàlies</button>
+      <button>Banyador</button>
+    </div>
+  </div>
+
+  <div class="question" id="q2" style="display:none;">
+    <p>☃️ Què podem fer quan neva?</p>
+    <div class="answers">
+      <button>Prendre el sol</button>
+      <button onclick="correct('q2')">Un ninot de neu</button>
+      <button>Plantar flors</button>
+    </div>
+  </div>
+
+  <div class="question" id="q3" style="display:none;">
+    <p>❄️ Com és el temps a l'hivern?</p>
+    <div class="answers">
+      <button>Fa molta calor</button>
+      <button onclick="correct('q3')">Fa fred</button>
+      <button>És època de collita</button>
+    </div>
+  </div>
+
+  <div id="penguin">🐧</div>
+  <div id="message"></div>
+
+  <a href="index.html">🔙 Tornar a la portada</a>
+
+  <script>
+    let step = 0;
+
+    function correct(questionId) {
+      document.getElementById(questionId).style.display = "none";
+      step += 1;
+      document.getElementById("progress").style.width = `${step * 33}%`;
+
+      if (step === 1) document.getElementById("q2").style.display = "block";
+      if (step === 2) document.getElementById("q3").style.display = "block";
+      if (step === 3) {
+        document.getElementById("penguin").style.display = "block";
+        document.getElementById("message").innerText = "🎉 Molt bé, Has trencat tot el gel!";
+      }
+    }
+  </script>
+
+</body>
+</html>
+
